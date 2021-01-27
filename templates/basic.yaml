@@ -1,0 +1,38 @@
+template: # Project metadata. Goes into project.yaml, but does not affect creation process
+  name: basic
+  lang: C
+  description: |
+    A all uses template for C projects.
+    Perfect for just organizing your files
+    without a specific objective in mind.
+  dependencies:
+    - 'gcc'
+  strict_dependencies:
+    - 'GNU Make'
+  test_dependencies:
+    - 'diff'
+  watch_dependencies:
+    - 'entr'
+defs: # Variables that go into Makefile.
+  flags: -g -fsanitize=address # blank if not defined
+  compiler: gcc # Ask if not defined
+  rootMakefile: 'Makefile' # Makefile as default
+  watch: yes # Define if template will use auto compile. Also auto testing if test is yes
+  tests: yes # Defines if template will have test support,
+  # therefore using next 2 variables to increment RootMakefile
+  test_input_files: 'tests/in' # Note: ending slash is opicional
+  test_expected_outputs: 'tests/out/'
+  libs_folder: 'src/libs' # root if not defined
+  binaries_folder: 'bin' # root if not defined
+project:
+  - bin
+  - src:
+    - main.c: main.c
+    - Makefile: Makefile
+    - libs
+  - tests:
+    - in
+    - out
+    - results
+  - Makefile: RootMakefile
+  - project.yaml: project.yaml # this is default and required to be this name for access of cli later

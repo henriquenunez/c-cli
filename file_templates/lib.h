@@ -2,7 +2,7 @@
 #define <%libname%>
 
 /**********************************
- * Author: <%username%>
+ * Author: <%author%>
  * Created at: <%now%>
  * ********************************/
 
