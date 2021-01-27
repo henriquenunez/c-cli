@@ -1,3 +1,5 @@
+import sys
+
 colors = {
   'red': '\033[31m',
   'green': '\033[32m',
@@ -18,8 +20,14 @@ class emoji:
   waning= '⚠'
   error= '⛔'
 
-def __log(color: str, msg: str):
-  print(f'{color}{msg}{colors["reset"]}')
+def errPrint(msg: str):
+  print(msg, file=sys.stderr)
+
+def __log(color: str, msg: str, err: bool = False):
+  if err:
+    errPrint(f'{color}{msg}{colors["reset"]}')
+  else:
+    print(f'{color}{msg}{colors["reset"]}')
 
 def log(msg: str):
   __log(colors['reset'], msg)
@@ -34,4 +42,4 @@ def warn(msg: str):
   __log(colors['yellow'], f'[WARNING] {msg}')
 
 def error(msg: str):
-  __log(colors['red'], f'[ERROR] {msg}')
+  __log(colors['red'], f'[ERROR] {msg}', True)

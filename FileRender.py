@@ -4,6 +4,9 @@ from os import remove
 
 _substitutions = {}
 
+class FileRenderError(Exception):
+  pass
+
 def register_substitution(name: str, value: any):
   """Register a substitution keys to be used in rendering
 
@@ -35,7 +38,7 @@ def renderFile(path: str, templateName: str):
   _substitutions['now'] = datetime.datetime.now().isoformat()
   fileNameResul = re.search(r'/?([a-zA-Z_\-\d ]+)$', path)
   if fileNameResul == None:
-    raise AssertionError(f'"path=[{path}]" is not a valid path')
+    raise FileRenderError(f'"path=[{path}]" is not a valid path')
   fileName = fileNameResul.groups()[0]
   _substitutions['fileName'] = fileName
   with open(f'file_templates/{templateName}') as template:
@@ -52,5 +55,5 @@ def renderFile(path: str, templateName: str):
           end = has_left.span()[1]
           output.close()
           remove(path)
-          raise NameError(f'Key "{key}" appeared in template but was not given a substitution value [@line {lineNum}: cols {start} -> {end}]')
+          raise FileRenderError(f'Key "{key}" appeared in template but was not given a substitution value [@line {lineNum}: cols {start} -> {end}]')
         output.write(line)
