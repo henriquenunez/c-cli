@@ -1,6 +1,6 @@
 import re
 import datetime
-from os import remove
+from os import remove, path as Path
 
 _substitutions = {}
 
@@ -37,8 +37,10 @@ def renderFile(path: str, templateName: str):
   """
   _substitutions['now'] = datetime.datetime.now().isoformat()
   fileNameResul = re.search(r'/?([a-zA-Z_\-\d ]+)$', path)
+  if Path.isfile(path):
+    raise FileRenderError(f'File {path} already exists.')
   if fileNameResul == None:
-    raise FileRenderError(f'"path=[{path}]" is not a valid path')
+    raise FileRenderError(f'"path=[{path}]" is not a valid path.')
   fileName = fileNameResul.groups()[0]
   _substitutions['fileName'] = fileName
   with open(f'file_templates/{templateName}') as template:
