@@ -5,15 +5,40 @@ from os import remove
 _substitutions = {}
 
 def register_substitution(name: str, value: any):
+  """Register a substitution keys to be used in rendering
+
+  Args:
+      name (str): Substitution key.
+      value (any): Value to substitute when key appers in template.
+  """
   _substitutions[name] = value
 
 def clear_substitutions():
+  """Clears all substitution keys. Defaults are recreated.
+  """
   _substitutions.clear()
 
 def renderFile(path: str, templateName: str):
+  """Gets the template and renders the substitutions to a new file
+
+  Args:
+      path (str): path to where the rendered file will be saves.
+      templateName (str): template name.
+
+  Default substitution keys:
+      'now' (str): ISO Date and time of rendering.
+      'fileName' (str): Filename automatically detected from 'path'.
+
+  Raises:
+      NameError: Raises if template has a substitution key that has no value defined.
+  """
   _substitutions['now'] = datetime.datetime.now().isoformat()
-  _substitutions['fileName'] = re.search(r'/?([a-zA-Z_\-\d ]+)$').groups()[0]
-  with open(f'templates/{templateName}') as template:
+  fileNameResul = re.search(r'/?([a-zA-Z_\-\d ]+)$', path)
+  if fileNameResul == None:
+    raise AssertionError(f'"path=[{path}]" is not a valid path')
+  fileName = fileNameResul.groups()[0]
+  _substitutions['fileName'] = fileName
+  with open(f'file_templates/{templateName}') as template:
     with open(path, 'wt') as output:
       lineNum = 0
       for line in template:
