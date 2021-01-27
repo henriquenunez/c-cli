@@ -8,7 +8,7 @@ try:
   FileRender.clear_substitutions()
 
   FileRender.register_substitution('libname', 'testLib')
-  FileRender.renderFile('./fail_test.h/', 'lib.h')
+  FileRender.renderFile('./fail_test.h', 'lib.h')
 
 except FileRender.FileRenderError as fre:
   logger.error(fre)
