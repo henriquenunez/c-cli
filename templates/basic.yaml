@@ -1,4 +1,4 @@
-template: # Project metadata. Goes into project.yaml, but does not affect creation process
+metadata: # Project metadata. Goes into project.yaml, but does not affect creation process
   name: basic
   lang: C
   description: |
