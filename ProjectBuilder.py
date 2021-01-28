@@ -1,3 +1,6 @@
+import os
+from FileRender import renderFile
+
 class ProjectParsingError(Exception):
     pass
 
@@ -47,4 +50,8 @@ def parseProject(project: list):
     return __actionQueue.copy()
 
 def generateFolder(actions: list, rootPath: str):
-  pass
+  for action in actions:
+    if action.action == 'folder':
+      os.mkdir(rootPath + action.name)
+    else:
+      renderFile(rootPath + action.name, action.action)
