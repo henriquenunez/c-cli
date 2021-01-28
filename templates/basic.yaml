@@ -19,9 +19,10 @@ defs: # Variables that go into Makefile.
   rootMakefile: 'Makefile' # Makefile as default
   watch: yes # Define if template will use auto compile. Also auto testing if test is yes
   tests: yes # Defines if template will have test support,
-  # therefore using next 2 variables to increment RootMakefile
+  # therefore using next 3 variables to increment RootMakefile
   test_input_files: 'tests/in' # Note: ending slash is opicional
   test_expected_outputs: 'tests/out/'
+  test_logs_output: 'tests/results'
   libs_folder: 'src/libs' # root if not defined
   binaries_folder: 'bin' # root if not defined
 project:
@@ -34,5 +35,5 @@ project:
     - in
     - out
     - results
-  - Makefile: RootMakefile
+  - Makefile: RootMakefile # Required for compiling and testing scripts
   - project.yaml: project.yaml # this is default and required to be this name for access of cli later
